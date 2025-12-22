@@ -1,12 +1,12 @@
 const express = require("express");
 const User = require("../db/userModel");
 const router = express.Router();
-
+const checkLogin = require("../middleware/checkLogin");
 router.post("/", async (request, response) => {
   
 });
 
-router.get("/list", async (req, res) => {
+router.get("/list", checkLogin, async (req, res) => {
   try{
     const users = await User.find({})
         .select("_id first_name last_name")
@@ -18,7 +18,7 @@ router.get("/list", async (req, res) => {
     res.status(500).json({error: "Internal server error"});
   }
 });
-router.get("/:id", async (req, res)=>{
+router.get("/:id", checkLogin, async (req, res)=>{
     const userId = req.params.id;
     try{
         const user = await User.findById(userId)

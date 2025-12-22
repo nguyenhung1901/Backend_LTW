@@ -2,7 +2,8 @@ const express = require("express");
 const Photo = require("../db/photoModel");
 const User = require("../db/userModel");
 const router = express.Router();
-router.get("/photosOfUser/:id", async (req, res) => {
+const checkLogin = require("../middleware/checkLogin");
+router.get("/photosOfUser/:id", checkLogin, async (req, res) => {
   const userId = req.params.id;
   
   try {
