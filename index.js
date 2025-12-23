@@ -35,6 +35,7 @@ app.use(session({
 app.use("/api/user", UserRouter);
 app.use("/api/photo", PhotoRouter);
 app.use("/admin", AdminRouter);
+app.use("/user", AdminRouter);
 
 app.get("/", (req, res) => {
   res.send({ message: "Hello from photo-sharing app API!" });
