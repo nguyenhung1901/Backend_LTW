@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const session = require("express-session");
+const path = require("path"); 
 
 const dbConnect = require("./db/dbConnect");
 const UserRouter = require("./routes/UserRouter");
@@ -10,12 +11,12 @@ const CommentRouter = require("./routes/CommentRouter");
 const AdminRouter = require("./routes/AdminRouter");
 
 dbConnect();
-app.use(cors({
-  origin: "http://localhost:3000",  
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
@@ -31,9 +32,10 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000
   }
 }));
-
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use("/api/user", UserRouter);
 app.use("/api/photo", PhotoRouter);
+app.use("/api/comment", CommentRouter);
 app.use("/admin", AdminRouter);
 app.use("/user", AdminRouter);
 
